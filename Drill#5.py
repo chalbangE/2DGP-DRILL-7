@@ -28,6 +28,13 @@ def reset_world():
     sx, sy = cx, cy
     hx, hy = random.randint(0, TUK_WIDTH), random.randint(0, TUK_HEIGHT)
     t = 0.0
+    set_new_target_arrow()
+
+def set_new_target_arrow():
+    global sx, sy, hx, hy, t
+    sx, sy = cx, cy  # p1 : 시작점
+    hx, hy = random.randint(0, TUK_WIDTH), random.randint(0, TUK_HEIGHT)  # p2 : 끝점
+    t = 0.0
 
 TUK_WIDTH, TUK_HEIGHT = 1280, 1024
 open_canvas(TUK_WIDTH, TUK_HEIGHT)
@@ -50,10 +57,12 @@ def update_world():
     action = 1 if cx < hx else 0
 
     if t <= 1.0:
-        cx = (1-t)*sx + t*hx   # cx 는 시작 x 와 끌 x 를 1-t:t 의 비율로 섞은 위치
-        cy = (1-t)*sy + t*hy
+        cx = (1 - t) * sx + t * hx  # cx 는 시작 x 와 끌 x 를 1-t:t 의 비율로 섞은 위치
+        cy = (1 - t) * sy + t * hy
         t += 0.001
-
+    else:
+        cx, cy = hx, hy
+        set_new_target_arrow()
 
 while running:
     render_world()  # 월드의 현재 내용을 그린다
